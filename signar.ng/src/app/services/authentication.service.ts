@@ -16,7 +16,7 @@ export class AuthenticationService {
   authenticatedUserEmail: string | null = null;
 
   constructor(public http: HttpClient) {
-    this.authenticatedUserEmail = localStorage.getItem(LOCAL_STORAGE_EMAIL_KEY);
+
   }
 
   async registerAndLogin(registerData: RegisterDTO): Promise<void> {
@@ -42,15 +42,15 @@ export class AuthenticationService {
   }
 
   isLoggedIn(): boolean {
-    return localStorage.getItem(LOCAL_STORAGE_EMAIL_KEY) != null;
+    return sessionStorage.getItem(LOCAL_STORAGE_EMAIL_KEY) != null;
   }
 
   private setUserEmail(email: string | null) {
     if (email == null) {
-      localStorage.removeItem(LOCAL_STORAGE_EMAIL_KEY);
+      sessionStorage.removeItem(LOCAL_STORAGE_EMAIL_KEY);
     }
     else {
-      localStorage.setItem(LOCAL_STORAGE_EMAIL_KEY, email);
+      sessionStorage.setItem(LOCAL_STORAGE_EMAIL_KEY, email);
     }
     this.authenticatedUserEmail = email;
   }
