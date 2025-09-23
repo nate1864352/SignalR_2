@@ -21,18 +21,18 @@ export class AuthenticationService {
 
   async registerAndLogin(registerData: RegisterDTO): Promise<void> {
     let result = await lastValueFrom(this.http.post<LoginResultDTO>(this.accountBaseUrl + 'Register', registerData));
-    sessionStorage.setItem("token", result.token);
+    localStorage.setItem("token", result.token);
     this.setUserEmail(result.email);
   }
 
   async login(loginData: LoginDTO): Promise<void> {
     let result = await lastValueFrom(this.http.post<LoginResultDTO>(this.accountBaseUrl + 'Login', loginData));
-    sessionStorage.setItem("token", result.token);
+    localStorage.setItem("token", result.token);
     this.setUserEmail(result.email);
   }
 
   async logout(): Promise<void> {
-    sessionStorage.removeItem("token");
+    localStorage.removeItem("token");
     this.setUserEmail(null);
   }
 
@@ -42,15 +42,15 @@ export class AuthenticationService {
   }
 
   isLoggedIn(): boolean {
-    return sessionStorage.getItem(LOCAL_STORAGE_EMAIL_KEY) != null;
+    return localStorage.getItem(LOCAL_STORAGE_EMAIL_KEY) != null;
   }
 
   private setUserEmail(email: string | null) {
     if (email == null) {
-      sessionStorage.removeItem(LOCAL_STORAGE_EMAIL_KEY);
+      localStorage.removeItem(LOCAL_STORAGE_EMAIL_KEY);
     }
     else {
-      sessionStorage.setItem(LOCAL_STORAGE_EMAIL_KEY, email);
+      localStorage.setItem(LOCAL_STORAGE_EMAIL_KEY, email);
     }
     this.authenticatedUserEmail = email;
   }
